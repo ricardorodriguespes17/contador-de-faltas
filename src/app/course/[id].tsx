@@ -1,14 +1,14 @@
-import { View } from 'react-native';
-import { Link, router } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
+import { Text, View } from 'react-native';
+import { Link, router, useLocalSearchParams } from 'expo-router';
 
 const ModalCourse = () => {
     const isPresented = router.canGoBack();
+    const { id } = useLocalSearchParams()
 
     return (
         <View className="flex flex-1 justify-center items-center">
             {!isPresented && <Link href="../">Dismiss</Link>}
-            <StatusBar style="dark" />
+            <Text>Matéria {id}</Text>
         </View>
     )
 }

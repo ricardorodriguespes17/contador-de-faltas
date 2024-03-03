@@ -21,7 +21,7 @@ const CoursesTable = () => {
                     className="flex flex-row w-full h-12 px-3"
                 >
                     <Button className="flex-1 items-start" textClassName="text-xl">
-                        <Link href="/modal">{course.name}</Link>
+                        <Link href={`/course/${course.id}`}>{course.name}</Link>
                     </Button>
                     
                     <Button
