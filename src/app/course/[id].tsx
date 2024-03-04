@@ -12,9 +12,9 @@ const ModalCourse = () => {
     const { goBack } = useNavigation()
 
     useEffect(() => {
-        const courseId = parseInt(id as string)
+        const courseId = id as string
 
-        if (!isNaN(courseId)) {
+        if (courseId) {
             setCourse(courses.find(item => item.id === courseId))
         } else {
             goBack()

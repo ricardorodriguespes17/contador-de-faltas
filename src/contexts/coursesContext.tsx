@@ -1,11 +1,18 @@
 import { createContext, useState } from "react";
 import { CoursesProps } from "../types/courses";
+import uuid from 'react-native-uuid';
 
 type CoursesContextProps = {
     courses: CoursesProps[]
-    removeCourse: (id: number) => void
-    incrementAbsences: (id: number) => void
-    decrementAbsences: (id: number) => void
+    createCourse: (data: CreateCourseProps) => void
+    removeCourse: (id: string) => void
+    incrementAbsences: (id: string) => void
+    decrementAbsences: (id: string) => void
+}
+
+type CreateCourseProps = {
+    name: string
+    absencesPerDay: number
 }
 
 export const CoursesContext = createContext({} as CoursesContextProps)
@@ -15,19 +22,23 @@ type CoursesProviderProps = {
 }
 
 const CoursesProvider = ({ children }: CoursesProviderProps) => {
-    const [courses, setCourses] = useState<CoursesProps[]>([
-        { id: 0, name: 'Sociologia', absences: 0, absencesPerDay: 2 },
-        { id: 1, name: 'Redes de Computadores I', absences: 0, absencesPerDay: 2 },
-        { id: 2, name: 'Paradigmas de LP', absences: 0, absencesPerDay: 3 },
-        { id: 3, name: 'Sistemas Inteligentes', absences: 0, absencesPerDay: 2 },
-        { id: 4, name: 'TSI', absences: 0, absencesPerDay: 2 },
-    ])
+    const [courses, setCourses] = useState<CoursesProps[]>([])
 
-    const removeCourse = (id: number) => {
+    const createCourse = (data: CreateCourseProps) => {
+        const newCourse: CoursesProps = {
+            id: uuid.v4() as string,
+            absences: 0,
+            ...data,
+        }
+
+        setCourses(courses.concat(newCourse))
+    }
+
+    const removeCourse = (id: string) => {
         setCourses(courses.filter(item => item.id !== id))
     }
 
-    const incrementAbsences = (id: number) => {
+    const incrementAbsences = (id: string) => {
         setCourses(courses.map(item => {
             if (item.id === id) {
                 return { ...item, absences: item.absences + item.absencesPerDay }
@@ -36,7 +47,7 @@ const CoursesProvider = ({ children }: CoursesProviderProps) => {
         }))
     }
 
-    const decrementAbsences = (id: number) => {
+    const decrementAbsences = (id: string) => {
         setCourses(courses.map(item => {
             if (item.id === id && item.absences - item.absencesPerDay >= 0) {
                 return { ...item, absences: item.absences - item.absencesPerDay }
@@ -46,7 +57,13 @@ const CoursesProvider = ({ children }: CoursesProviderProps) => {
     }
 
     return (
-        <CoursesContext.Provider value={{ courses, removeCourse, incrementAbsences, decrementAbsences }}>
+        <CoursesContext.Provider value={{
+            courses,
+            removeCourse,
+            incrementAbsences,
+            decrementAbsences,
+            createCourse
+        }}>
             {children}
         </CoursesContext.Provider>
     )
