@@ -46,7 +46,7 @@ const CourseForm = () => {
                     />
 
                     <Button
-                        className="bg-teal-600 h-10 w-full"
+                        className="bg-teal-600 h-10 w-full rounded-md dark:bg-teal-900"
                         onClick={() => onSubmit(values)}
                     >
                         <Text className="text-xl text-white">Adicionar</Text>

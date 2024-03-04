@@ -1,23 +1,34 @@
 import { Stack } from "expo-router"
 import CoursesProvider from "../contexts/coursesContext"
+import { darkMode, lightMode } from "../config/appConfig"
+import { useColorScheme } from "nativewind";
+import Header from "../components/Header";
 
 const Layout = () => {
+    const { colorScheme } = useColorScheme();
+    const theme = colorScheme === 'dark' ? darkMode : lightMode
+
     return (
         <CoursesProvider>
             <Stack
                 screenOptions={{
                     headerStyle: {
-                        backgroundColor: "#0d9488",
+                        backgroundColor: theme.primaryColor,
                     },
-                    navigationBarColor: "#0d9488",
-                    headerTintColor: "#fff",
-                    statusBarStyle: "light"
+                    header: (props => <Header title={props.options.title || ""} />),
+                    navigationBarColor: theme.primaryColor,
+                    headerTintColor: theme.textPrimaryColor,
+                    statusBarStyle: theme.statusBarTheme,
+                    statusBarColor: theme.primaryColor,
+                    contentStyle: {
+                        backgroundColor: theme.appBackground,
+                    },
                 }}
             >
                 <Stack.Screen
                     name="index"
                     options={{
-                        title: "Contador de faltas"
+                        title: "Contador de faltas",
                     }}
                 />
                 <Stack.Screen

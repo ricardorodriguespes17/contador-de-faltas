@@ -1,6 +1,6 @@
 import { Text, View } from "react-native"
 import Button from "../Button"
-import Icon from "react-native-vector-icons/FontAwesome5"
+import Icon from "../Icon"
 
 type IncrementorProps = {
     value: number
@@ -19,7 +19,7 @@ const Incrementor = ({ value, onDecrement, onIncrement }: IncrementorProps) => {
             </Button>
 
             <View className="flex justify-center items-center w-6 h-full">
-                <Text className="text-2xl">{value}</Text>
+                <Text className="text-2xl dark:text-white">{value}</Text>
             </View>
 
             <Button
