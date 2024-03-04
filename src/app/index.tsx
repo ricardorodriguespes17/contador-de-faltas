@@ -1,11 +1,14 @@
 import { View } from "react-native"
 import CoursesTable from "../components/CoursesTable"
+import CoursesProvider from "../contexts/coursesContext"
 
 const Home = () => {
     return (
-        <View className="flex flex-col">
-            <CoursesTable />
-        </View>
+        <CoursesProvider>
+            <View className="flex flex-col">
+                <CoursesTable />
+            </View>
+        </CoursesProvider>
     )
 }
 

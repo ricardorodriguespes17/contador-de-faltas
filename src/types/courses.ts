@@ -1,4 +1,4 @@
-export type Courses = {
+export type CoursesProps = {
     id: number
     name: string
     absences: number
