@@ -7,7 +7,6 @@ export const getFirebaseCourses = async () => {
     try {
         const userData = await collection.doc('mari').get()
         const data = userData.get('courses')
-        console.log('courses', data)
     } catch (err) {
         return null
     }
