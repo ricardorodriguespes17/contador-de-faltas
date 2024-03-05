@@ -2,7 +2,6 @@ import { Stack } from "expo-router"
 import CoursesProvider from "../contexts/coursesContext"
 import { darkMode, lightMode } from "../config/appConfig"
 import { useColorScheme } from "nativewind";
-import Header from "../components/Header";
 
 const Layout = () => {
     const { colorScheme } = useColorScheme();
@@ -15,7 +14,6 @@ const Layout = () => {
                     headerStyle: {
                         backgroundColor: theme.primaryColor,
                     },
-                    header: (props => <Header title={props.options.title || ""} />),
                     navigationBarColor: theme.primaryColor,
                     headerTintColor: theme.textPrimaryColor,
                     statusBarStyle: theme.statusBarTheme,

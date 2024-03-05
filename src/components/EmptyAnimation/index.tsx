@@ -12,7 +12,7 @@ const EmptyAnimation = () => {
             autoPlay
             loop
             source={colorScheme === 'dark' ? EmptyLottieDark : EmptyLottie}
-            style={{ width: '100%', height: 350 }}
+            style={{ width: '100%', height: 450 }}
         />
     )
 }
