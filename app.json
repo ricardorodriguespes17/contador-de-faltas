@@ -2,7 +2,7 @@
   "expo": {
     "name": "contador-de-faltas",
     "slug": "contador-de-faltas",
-    "version": "1.0.0",
+    "version": "0.0.1",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
     "scheme": "contador-de-faltas",
@@ -17,12 +17,22 @@
       "supportsTablet": true
     },
     "android": {
+      "versionCode": 1,
       "adaptiveIcon": {
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.ricardo_pes17.contadordefaltas"
     },
     "plugins": [
       "expo-router"
-    ]
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "49ee7bab-24cb-4f71-a36f-b6e6152dfd64"
+      }
+    }
   }
 }
