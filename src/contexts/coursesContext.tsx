@@ -1,6 +1,7 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { CoursesProps } from "../types/courses";
 import uuid from 'react-native-uuid';
+import { getLocalCourses, setLocalCourses } from "../services/local/courseStorage";
 
 type CoursesContextProps = {
     courses: CoursesProps[]
@@ -23,6 +24,21 @@ type CoursesProviderProps = {
 
 const CoursesProvider = ({ children }: CoursesProviderProps) => {
     const [courses, setCourses] = useState<CoursesProps[]>([])
+
+    useEffect(() => {
+        storageCourse()
+    }, [courses])
+
+    const storageCourse = async () => {
+        if(courses.length > 0) {
+            setLocalCourses(courses)
+        } else {
+            const localCourses = await getLocalCourses()
+            if(localCourses) {
+                setCourses(localCourses)
+            }
+        }
+    }
 
     const createCourse = (data: CreateCourseProps) => {
         const newCourse: CoursesProps = {
