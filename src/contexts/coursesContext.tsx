@@ -35,7 +35,7 @@ const CoursesProvider = ({ children }: CoursesProviderProps) => {
         const data = await getFirebaseCourses()
         const localData = await getLocalCourses()
 
-        setData(data || localData || [])
+        setData(data || [])
     }
 
     const setCourses = async (data: CoursesProps[]) => {
