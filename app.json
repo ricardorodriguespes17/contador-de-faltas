@@ -18,13 +18,15 @@
     },
     "android": {
       "versionCode": 1,
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "backgroundColor": "#ffffff"
       },
       "package": "com.ricardo_pes17.contadordefaltas"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      "@react-native-firebase/app"
     ],
     "extra": {
       "router": {

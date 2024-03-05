@@ -2,9 +2,11 @@ import { createContext, useEffect, useState } from "react";
 import { CoursesProps } from "../types/courses";
 import uuid from 'react-native-uuid';
 import { getLocalCourses, setLocalCourses } from "../services/local/courseStorage";
+import { getFirebaseCourses, updateFirebaseCourses } from "../services/firebase/coursesDB";
 
 type CoursesContextProps = {
     courses: CoursesProps[]
+    setCourses: (data: CoursesProps[]) => Promise<void>
     createCourse: (data: CreateCourseProps) => void
     removeCourse: (id: string) => void
     incrementAbsences: (id: string) => void
@@ -23,21 +25,23 @@ type CoursesProviderProps = {
 }
 
 const CoursesProvider = ({ children }: CoursesProviderProps) => {
-    const [courses, setCourses] = useState<CoursesProps[]>([])
+    const [coursesData, setData] = useState<CoursesProps[]>([])
 
     useEffect(() => {
-        storageCourse()
-    }, [courses])
+        getCourses()
+    }, [])
 
-    const storageCourse = async () => {
-        if(courses.length > 0) {
-            setLocalCourses(courses)
-        } else {
-            const localCourses = await getLocalCourses()
-            if(localCourses) {
-                setCourses(localCourses)
-            }
-        }
+    const getCourses = async () => {
+        const data = await getFirebaseCourses()
+        const localData = await getLocalCourses()
+
+        setData(data || localData || [])
+    }
+
+    const setCourses = async (data: CoursesProps[]) => {
+        await updateFirebaseCourses(data)
+        await setLocalCourses(data)
+        setData(data)
     }
 
     const createCourse = (data: CreateCourseProps) => {
@@ -47,15 +51,15 @@ const CoursesProvider = ({ children }: CoursesProviderProps) => {
             ...data,
         }
 
-        setCourses(courses.concat(newCourse))
+        setCourses(coursesData.concat(newCourse))
     }
 
     const removeCourse = (id: string) => {
-        setCourses(courses.filter(item => item.id !== id))
+        setCourses(coursesData.filter(item => item.id !== id))
     }
 
     const incrementAbsences = (id: string) => {
-        setCourses(courses.map(item => {
+        setCourses(coursesData.map(item => {
             if (item.id === id) {
                 return { ...item, absences: item.absences + item.absencesPerDay }
             }
@@ -64,7 +68,7 @@ const CoursesProvider = ({ children }: CoursesProviderProps) => {
     }
 
     const decrementAbsences = (id: string) => {
-        setCourses(courses.map(item => {
+        setCourses(coursesData.map(item => {
             if (item.id === id && item.absences - item.absencesPerDay >= 0) {
                 return { ...item, absences: item.absences - item.absencesPerDay }
             }
@@ -74,7 +78,8 @@ const CoursesProvider = ({ children }: CoursesProviderProps) => {
 
     return (
         <CoursesContext.Provider value={{
-            courses,
+            courses: coursesData,
+            setCourses,
             removeCourse,
             incrementAbsences,
             decrementAbsences,

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "762782488232",
+    "project_id": "contador-de-faltass",
+    "storage_bucket": "contador-de-faltass.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:762782488232:android:fd1ed2b0c9f0471208549d",
+        "android_client_info": {
+          "package_name": "com.ricardo_pes17.contadordefaltas"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1MW63vyOcKRyEbwvsH8AHA_Tco0fn7Go"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
