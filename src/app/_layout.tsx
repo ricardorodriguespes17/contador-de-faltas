@@ -24,6 +24,12 @@ const Layout = () => {
                 }}
             >
                 <Stack.Screen
+                    name="auth/login"
+                    options={{
+                        title: "Login",
+                    }}
+                />
+                <Stack.Screen
                     name="index"
                     options={{
                         title: "Contador de faltas",
