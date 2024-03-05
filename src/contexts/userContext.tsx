@@ -64,7 +64,7 @@ const UserProvider = ({ children }: UserProviderProps) => {
 
     return (
         <UserContext.Provider value={{ user, isLoading, onLogin }}>
-            {!isLoading && children}
+            {children}
         </UserContext.Provider>
     )
 }

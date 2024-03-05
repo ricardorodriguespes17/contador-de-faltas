@@ -1,20 +1,19 @@
-import { View } from "react-native"
-import CoursesTable from "../components/CoursesTable"
+import { Text } from "react-native"
 import useAuth from "../hooks/useAuth"
 import { Redirect } from "expo-router"
 
-const Home = () => {
-    const { user } = useAuth()
+const SplashScreen = () => {
+    const { user, isLoading } = useAuth()
 
-    if(!user) {
-        return <Redirect href="/auth/login" />
+    if (!isLoading) {
+        if (!user) {
+            return <Redirect href="/auth/login" />
+        } else {
+            return <Redirect href="/home" />
+        }
     }
 
-    return (
-        <View className="flex h-screen w-screen flex-col">
-            <CoursesTable />
-        </View>
-    )
+    return (<Text>Carregando...</Text>)
 }
 
-export default Home
+export default SplashScreen

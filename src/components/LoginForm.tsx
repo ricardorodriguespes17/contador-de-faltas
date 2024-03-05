@@ -2,7 +2,6 @@ import { Formik } from "formik"
 import { Text, View } from "react-native"
 import InputField from "./InputField"
 import Button from "./Button"
-import { Redirect, router } from "expo-router"
 import useAuth from "../hooks/useAuth"
 
 type FormValueProps = {
@@ -10,19 +9,12 @@ type FormValueProps = {
     password: string
 }
 
-const LoginForm = () => {
-    const { onLogin, isLoading, user } = useAuth()
+type LoginFormProps = {
+    onSubmit: (data: FormValueProps) => void
+}
 
-    const onSubmit = async (values: FormValueProps) => {
-        const response = await onLogin({ email: values.email, password: values.password })
-        if (response) {
-            router.replace("/")
-        }
-    }
-
-    if(!user) {
-        return <Redirect href="/" />
-    }
+const LoginForm = ({ onSubmit }: LoginFormProps) => {
+    const { isLoading } = useAuth()
 
     return (
         <Formik<FormValueProps>

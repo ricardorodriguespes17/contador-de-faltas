@@ -26,13 +26,19 @@ const Layout = () => {
                     }}
                 >
                     <Stack.Screen
+                        name="index"
+                        options={{
+                            headerShown: false
+                        }}
+                    />
+                    <Stack.Screen
                         name="auth/login"
                         options={{
                             title: "Login",
                         }}
                     />
                     <Stack.Screen
-                        name="index"
+                        name="home/index"
                         options={{
                             title: "Contador de faltas",
                         }}
