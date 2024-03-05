@@ -7,13 +7,10 @@ const Login = () => {
     const { onLogin, user } = useAuth()
 
     const onSubmit = async ({ email, password }: { email: string, password: string }) => {
-        const response = await onLogin({ email, password })
-        if (response) {
-            router.replace("/home")
-        }
+        await onLogin({ email, password })
     }
 
-    if (!user) {
+    if (user) {
         return <Redirect href="/home" />
     }
 

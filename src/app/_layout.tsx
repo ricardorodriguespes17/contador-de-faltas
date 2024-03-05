@@ -1,8 +1,10 @@
-import { Stack } from "expo-router"
+import { Stack, router } from "expo-router"
 import CoursesProvider from "../contexts/coursesContext"
 import { darkMode, lightMode } from "../config/appConfig"
 import { useColorScheme } from "nativewind";
 import UserProvider from "../contexts/userContext";
+import { Text } from "react-native";
+import LogoutButton from "../components/LogoutButton";
 
 const Layout = () => {
     const { colorScheme } = useColorScheme();
@@ -41,6 +43,7 @@ const Layout = () => {
                         name="home/index"
                         options={{
                             title: "Contador de faltas",
+                            headerRight: (props) => <LogoutButton tintColor={props.tintColor} />
                         }}
                     />
                     <Stack.Screen

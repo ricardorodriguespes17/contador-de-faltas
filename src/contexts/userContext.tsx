@@ -7,7 +7,8 @@ import { FirebaseAuthTypes } from "@react-native-firebase/auth";
 type UserContextProps = {
     user: UserProps | null
     isLoading: boolean
-    onLogin: (data: LoginData) => Promise<UserProps | null>
+    onLogin: (data: LoginData) => Promise<boolean>
+    onLogout: () => Promise<boolean>
 }
 
 type LoginData = {
@@ -26,20 +27,14 @@ const UserProvider = ({ children }: UserProviderProps) => {
     const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
-        recoverUser()
+        const sub = auth().onAuthStateChanged(onAuthStateChanged)
+        return sub
     }, [])
 
-    const recoverUser = async () => {
-        try {
-            setIsLoading(true)
-            const currentUser = auth().currentUser
-            const user = await getUserData(currentUser)
-            setUser(user)
-        } catch(err) {
-            console.log('erro ao buscar o usuário')
-        } finally {
-            setIsLoading(false)
-        }
+    const onAuthStateChanged = async (currentUser: FirebaseAuthTypes.User | null) => {
+        const user = await getUserData(currentUser)
+        setIsLoading(false)
+        setUser(user)
     }
 
     const getUserData = async (currentUser: FirebaseAuthTypes.User | null) => {
@@ -54,16 +49,29 @@ const UserProvider = ({ children }: UserProviderProps) => {
             setIsLoading(true)
             const credentials = await auth().signInWithEmailAndPassword(email, password)
             const user = getUserData(credentials.user)
-            return user
+            return !!user
         } catch (err) {
-            return null
+            return false
+        } finally {
+            setIsLoading(false)
+        }
+    }
+
+    const onLogout = async () => {
+        try {
+            setIsLoading(true)
+            await auth().signOut()
+            setUser(null)
+            return true
+        } catch (err) {
+            return false
         } finally {
             setIsLoading(false)
         }
     }
 
     return (
-        <UserContext.Provider value={{ user, isLoading, onLogin }}>
+        <UserContext.Provider value={{ user, isLoading, onLogin, onLogout }}>
             {children}
         </UserContext.Provider>
     )
