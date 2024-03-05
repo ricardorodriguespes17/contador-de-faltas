@@ -23,7 +23,7 @@ const CourseForm = () => {
             absencesPerDay: parseInt(values.absencesPerDay)
         })
 
-        router.navigate('/')
+        router.back()
     }
 
     return (
