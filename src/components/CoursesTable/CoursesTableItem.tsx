@@ -23,11 +23,17 @@ const CoursesTableItem = ({ course }: CoursesTableItemProps) => {
         >
             <View className="flex flex-row w-full h-16">
                 <Button className="px-2 pt-1 h-full" onClick={() => setIsOpenDetails(!isOpenDetails)}>
-                    <Icon name={isOpenDetails ? "chevron-up" : "chevron-down"} size={24} color={lightMode.textAppColor} />
+                    <Icon
+                        name={isOpenDetails ? "chevron-up" : "chevron-down"}
+                        size={24}
+                        color={lightMode.textAppColor}
+                    />
                 </Button>
 
                 <Button className="flex flex-1 items-start">
-                    <Link className="text-2xl dark:text-white" href={`/course/${course.id}`}>{course.name}</Link>
+                    <Link className="text-2xl dark:text-white" href={`/course/${course.id}`}>
+                        {course.name}
+                    </Link>
                 </Button>
 
                 <Button

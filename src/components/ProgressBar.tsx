@@ -15,7 +15,7 @@ const ProgressBar = ({ value, maxValue }: ProgressBarProps) => {
         color = 'yellow'
     } else if(percent < 85) {
         color = 'orange'
-    } else if(percent > 100) {
+    } else if(percent >= 100) {
         color = 'black'
     }
     

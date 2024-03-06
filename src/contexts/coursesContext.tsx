@@ -8,13 +8,21 @@ import useAuth from "../hooks/useAuth";
 type CoursesContextProps = {
     courses: CoursesProps[]
     isLoading: boolean
-    createCourse: (data: CreateCourseProps) => void
-    removeCourse: (id: string) => void
+    createCourse: (data: CreateCourseProps) => Promise<void>
+    updateCourse: (data: UpdateCourseProps) => Promise<void>
+    removeCourse: (id: string) => Promise<void>
     incrementAbsences: (id: string) => void
     decrementAbsences: (id: string) => void
 }
 
 type CreateCourseProps = {
+    name: string
+    absencesPerDay: number
+    absenceLimit: number
+}
+
+type UpdateCourseProps = {
+    id: string
     name: string
     absencesPerDay: number
     absenceLimit: number
@@ -64,18 +72,31 @@ const CoursesProvider = ({ children }: CoursesProviderProps) => {
 
     }
 
-    const createCourse = (data: CreateCourseProps) => {
+    const createCourse = async (data: CreateCourseProps) => {
         const newCourse: CoursesProps = {
             id: uuid.v4() as string,
             absences: 0,
             ...data,
         }
 
-        setCourses(coursesData.concat(newCourse))
+        await setCourses(coursesData.concat(newCourse))
     }
 
-    const removeCourse = (id: string) => {
-        setCourses(coursesData.filter(item => item.id !== id))
+    const updateCourse = async (data: UpdateCourseProps) => {
+        await setCourses(coursesData.map(course => {
+            if (course.id === data.id) {
+                return {
+                    ...course,
+                    ...data
+                }
+            }
+
+            return course
+        }))
+    }
+
+    const removeCourse = async (id: string) => {
+        await setCourses(coursesData.filter(item => item.id !== id))
     }
 
     const incrementAbsences = (id: string) => {
@@ -100,10 +121,11 @@ const CoursesProvider = ({ children }: CoursesProviderProps) => {
         <CoursesContext.Provider value={{
             courses: coursesData,
             isLoading,
+            createCourse,
+            updateCourse,
             removeCourse,
             incrementAbsences,
-            decrementAbsences,
-            createCourse
+            decrementAbsences
         }}>
             {children}
         </CoursesContext.Provider>

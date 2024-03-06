@@ -1,15 +1,14 @@
-import { Text, View } from 'react-native';
-import { Link, router, useLocalSearchParams, useNavigation } from 'expo-router';
+import { View } from 'react-native';
+import { router, useLocalSearchParams } from 'expo-router';
 import useCourses from '../../hooks/useCourses';
 import { useEffect, useState } from 'react';
 import { CoursesProps } from '../../types/courses';
+import CourseForm from '../../components/CourseForm';
 
 const ModalCourse = () => {
-    const isPresented = router.canGoBack();
     const { id } = useLocalSearchParams()
     const { courses } = useCourses()
     const [course, setCourse] = useState<CoursesProps>()
-    const { goBack } = useNavigation()
 
     useEffect(() => {
         const courseId = id as string
@@ -17,14 +16,15 @@ const ModalCourse = () => {
         if (courseId) {
             setCourse(courses.find(item => item.id === courseId))
         } else {
-            goBack()
+            router.back()
         }
     }, [id, courses])
 
+    console.log(course)
+
     return (
-        <View className="flex flex-1 justify-center items-center">
-            {!isPresented && <Link href="../">Dismiss</Link>}
-            <Text>{course?.name}</Text>
+        <View className="flex w-full flex-1 justify-center items-center">
+            {course && <CourseForm course={course} />}
         </View>
     )
 }

@@ -1,9 +1,10 @@
 import { Formik } from "formik"
-import { KeyboardAvoidingView, Text, View } from "react-native"
+import { KeyboardAvoidingView, Text } from "react-native"
 import Button from "../Button"
 import InputField from "../InputField"
 import useCourses from "../../hooks/useCourses"
 import { router } from "expo-router"
+import { CoursesProps } from "../../types/courses"
 
 type FormValueProps = {
   name: string,
@@ -11,33 +12,50 @@ type FormValueProps = {
   absenceLimit: string
 }
 
-const CourseForm = () => {
-  const { createCourse } = useCourses()
+type CourseFormProps = {
+  course?: CoursesProps
+}
 
-  const onSubmit = (values: FormValueProps) => {
+const CourseForm = ({ course }: CourseFormProps) => {
+  const { createCourse, updateCourse } = useCourses()
+
+  const onSubmit = async (values: FormValueProps) => {
     if (isNaN(parseInt(values.absencesPerDay))
       || isNaN(parseInt(values.absenceLimit))) {
       return
     }
 
-    createCourse({
-      name: values.name,
-      absencesPerDay: parseInt(values.absencesPerDay),
-      absenceLimit: parseInt(values.absenceLimit)
-    })
+    if (course) {
+      await updateCourse({
+        id: course.id,
+        name: values.name,
+        absencesPerDay: parseInt(values.absencesPerDay),
+        absenceLimit: parseInt(values.absenceLimit)
+      })
+    } else {
+      await createCourse({
+        name: values.name,
+        absencesPerDay: parseInt(values.absencesPerDay),
+        absenceLimit: parseInt(values.absenceLimit)
+      })
+    }
 
     router.back()
   }
 
   return (
     <Formik<FormValueProps>
-      initialValues={{ name: '', absencesPerDay: '2', absenceLimit: '15' }}
+      initialValues={{ 
+        name: course?.name || '', 
+        absencesPerDay: course?.absencesPerDay.toString() || '2', 
+        absenceLimit: course?.absenceLimit.toString() || '15' 
+      }}
       onSubmit={onSubmit}
     >
       {({ values, setFieldValue }) => (
         <KeyboardAvoidingView
           behavior="height"
-          className="flex h-full justify-center items-center px-20"
+          className="flex w-full h-full justify-center items-center px-20"
         >
           <InputField
             label="Nome"
@@ -54,14 +72,16 @@ const CourseForm = () => {
           <InputField
             label="Limite de faltas"
             value={values.absenceLimit}
-            onChangeText={(value) => setFieldValue('absencesPerDay', value)}
+            onChangeText={(value) => setFieldValue('absenceLimit', value)}
           />
 
           <Button
             className="bg-teal-600 h-10 w-full rounded-md dark:bg-teal-900"
             onClick={() => onSubmit(values)}
           >
-            <Text className="text-xl text-white">Adicionar</Text>
+            <Text className="text-xl text-white">
+              {course ? "Editar" : "Adicionar"}
+            </Text>
           </Button>
         </KeyboardAvoidingView>
       )}
