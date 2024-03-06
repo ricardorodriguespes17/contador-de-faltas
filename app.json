@@ -2,11 +2,13 @@
   "expo": {
     "name": "contador-de-faltas",
     "slug": "contador-de-faltas",
-    "version": "0.0.1",
+    "version": "0.1.2",
     "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
     "userInterfaceStyle": "light",
     "scheme": "contador-de-faltas",
     "splash": {
+      "image": "./assets/images/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -17,10 +19,10 @@
       "supportsTablet": true
     },
     "android": {
-      "versionCode": 1,
+      "versionCode": 3,
       "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
-        "backgroundColor": "#ffffff"
+        "monochromeImage": "./assets/images/adaptive-icon.png"
       },
       "package": "com.ricardo_pes17.contadordefaltas"
     },
