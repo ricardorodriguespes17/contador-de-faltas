@@ -1,23 +1,31 @@
 import { CoursesProps } from "../../types/courses";
-import auth from "./auth";
 import firestore from "./database";
 
 const collection = firestore().collection('users')
-const user = auth().currentUser
 
-export const getFirebaseCourses = async () => {
-    if(!user) return null
+type GetFirebaseCourses = {
+    userUid?: string
+}
+
+type UpdateFirebaseCourses = {
+    userUid?: string
+    courses: CoursesProps[]
+}
+
+export const getFirebaseCourses = async (data: GetFirebaseCourses) => {
+    if (!data.userUid) return null
 
     try {
-        const userData = await collection.doc(user.uid).get()
-        const data = userData.get('courses')
+        const userData = await collection.doc(data.userUid).get()
+        const courses = userData.get('courses') as CoursesProps[]
+        return courses
     } catch (err) {
         return null
     }
 }
 
-export const updateFirebaseCourses = async (courses: CoursesProps[]) => {
-    if(!user) return null
-    
-    collection.doc(user.uid).update({courses})
+export const updateFirebaseCourses = async (data: UpdateFirebaseCourses) => {
+    if (!data.userUid) return null
+
+    collection.doc(data.userUid).update({ courses: data.courses })
 }

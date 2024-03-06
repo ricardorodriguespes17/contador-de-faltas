@@ -3,10 +3,11 @@ import { CoursesProps } from "../types/courses";
 import uuid from 'react-native-uuid';
 import { getLocalCourses, setLocalCourses } from "../services/local/courseStorage";
 import { getFirebaseCourses, updateFirebaseCourses } from "../services/firebase/coursesDB";
+import useAuth from "../hooks/useAuth";
 
 type CoursesContextProps = {
     courses: CoursesProps[]
-    setCourses: (data: CoursesProps[]) => Promise<void>
+    isLoading: boolean
     createCourse: (data: CreateCourseProps) => void
     removeCourse: (id: string) => void
     incrementAbsences: (id: string) => void
@@ -26,22 +27,40 @@ type CoursesProviderProps = {
 
 const CoursesProvider = ({ children }: CoursesProviderProps) => {
     const [coursesData, setData] = useState<CoursesProps[]>([])
+    const [isLoading, setIsLoading] = useState(false)
+    const { user } = useAuth()
 
     useEffect(() => {
-        getCourses()
-    }, [])
+        if (user) {
+            getCourses()
+        }
+    }, [user])
 
     const getCourses = async () => {
-        const data = await getFirebaseCourses()
-        const localData = await getLocalCourses()
-
-        setData(data || [])
+        try {
+            setIsLoading(true)
+            const data = await getFirebaseCourses({ userUid: user?.uid })
+            const localData = await getLocalCourses()
+            setData(data || [])
+        } catch (err) {
+            console.log('erro ao carregar as matérias')
+        } finally {
+            setIsLoading(false)
+        }
     }
 
     const setCourses = async (data: CoursesProps[]) => {
-        await updateFirebaseCourses(data)
-        await setLocalCourses(data)
-        setData(data)
+        try {
+            setIsLoading(true)
+            await updateFirebaseCourses({ courses: data, userUid: user?.uid })
+            await setLocalCourses(data)
+            setData(data)
+        } catch (err) {
+            console.log('erro ao atualizar as matérias')
+        } finally {
+            setIsLoading(false)
+        }
+
     }
 
     const createCourse = (data: CreateCourseProps) => {
@@ -79,7 +98,7 @@ const CoursesProvider = ({ children }: CoursesProviderProps) => {
     return (
         <CoursesContext.Provider value={{
             courses: coursesData,
-            setCourses,
+            isLoading,
             removeCourse,
             incrementAbsences,
             decrementAbsences,

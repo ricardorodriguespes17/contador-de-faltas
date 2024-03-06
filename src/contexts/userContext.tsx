@@ -41,7 +41,8 @@ const UserProvider = ({ children }: UserProviderProps) => {
         if (!currentUser) return null
 
         const user = await getUser(currentUser.uid)
-        return user
+        console.log(user)
+        return { ...user, uid: currentUser.uid }
     }
 
     const onLogin = async ({ email, password }: LoginData) => {

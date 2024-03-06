@@ -7,9 +7,11 @@ import EmptyAnimation from "../EmptyAnimation"
 import { router } from "expo-router"
 import { lightMode } from "../../config/appConfig"
 import Icon from "../Icon"
+import useAuth from "../../hooks/useAuth"
 
 const CoursesTable = () => {
     const { courses, removeCourse, incrementAbsences, decrementAbsences } = useCourses()
+    const { user } = useAuth()
 
     const handleAdd = () => {
         router.push('/course/create')
@@ -17,6 +19,7 @@ const CoursesTable = () => {
 
     return (
         <View className="flex flex-1 items-center">
+            <Text className="text-xl my-2">Olá, {user?.name} 👋</Text>
             {courses.map(course => (
                 <View
                     key={course.id}
