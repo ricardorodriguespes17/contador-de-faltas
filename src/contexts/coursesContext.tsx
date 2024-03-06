@@ -17,6 +17,7 @@ type CoursesContextProps = {
 type CreateCourseProps = {
     name: string
     absencesPerDay: number
+    absenceLimit: number
 }
 
 export const CoursesContext = createContext({} as CoursesContextProps)

@@ -8,19 +8,22 @@ import { router } from "expo-router"
 type FormValueProps = {
   name: string,
   absencesPerDay: string
+  absenceLimit: string
 }
 
 const CourseForm = () => {
   const { createCourse } = useCourses()
 
   const onSubmit = (values: FormValueProps) => {
-    if (isNaN(parseInt(values.absencesPerDay))) {
+    if (isNaN(parseInt(values.absencesPerDay))
+      || isNaN(parseInt(values.absenceLimit))) {
       return
     }
 
     createCourse({
       name: values.name,
-      absencesPerDay: parseInt(values.absencesPerDay)
+      absencesPerDay: parseInt(values.absencesPerDay),
+      absenceLimit: parseInt(values.absenceLimit)
     })
 
     router.back()
@@ -28,7 +31,7 @@ const CourseForm = () => {
 
   return (
     <Formik<FormValueProps>
-      initialValues={{ name: '', absencesPerDay: '2' }}
+      initialValues={{ name: '', absencesPerDay: '2', absenceLimit: '15' }}
       onSubmit={onSubmit}
     >
       {({ values, setFieldValue }) => (
@@ -45,6 +48,12 @@ const CourseForm = () => {
           <InputField
             label="Faltas por dia"
             value={values.absencesPerDay}
+            onChangeText={(value) => setFieldValue('absencesPerDay', value)}
+          />
+
+          <InputField
+            label="Limite de faltas"
+            value={values.absenceLimit}
             onChangeText={(value) => setFieldValue('absencesPerDay', value)}
           />
 

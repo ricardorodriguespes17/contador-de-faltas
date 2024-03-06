@@ -3,4 +3,5 @@ export type CoursesProps = {
     name: string
     absences: number
     absencesPerDay: number
+    absenceLimit: number
 }

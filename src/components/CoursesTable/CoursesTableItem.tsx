@@ -49,16 +49,16 @@ const CoursesTableItem = ({ course }: CoursesTableItemProps) => {
                 className="flex flex-row items-center w-full bg-gray-800/10 px-3 border-t-2 border-gray-800/30"
             >
                 <View className="flex-1 flex justify-center">
-                    <Text className="text-base dark:text-white">Limite: 15 faltas</Text>
+                    <Text className="text-base dark:text-white">Limite: {course.absenceLimit} faltas</Text>
                 </View>
 
-                {course.absences / 15 >= 1 && (
+                {course.absences / course.absenceLimit >= 1 && isOpenDetails && (
                     <View className="bg-black/90 rounded-md p-1 mr-1">
                         <Text>☠️</Text>
                     </View>
                 )}
 
-                <CircleProgress value={course.absences} maxValue={15} />
+                <CircleProgress value={course.absences} maxValue={course.absenceLimit} />
             </View>
         </View>
     )

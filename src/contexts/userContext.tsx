@@ -41,7 +41,6 @@ const UserProvider = ({ children }: UserProviderProps) => {
         if (!currentUser) return null
 
         const user = await getUser(currentUser.uid)
-        console.log(user)
         return { ...user, uid: currentUser.uid }
     }
 
