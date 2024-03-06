@@ -1,7 +1,7 @@
 import { View } from "react-native"
 import LoginForm from "../../components/LoginForm"
 import useAuth from "../../hooks/useAuth"
-import { Redirect, router } from "expo-router"
+import { Redirect } from "expo-router"
 
 const Login = () => {
     const { onLogin, user } = useAuth()

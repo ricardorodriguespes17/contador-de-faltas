@@ -3,23 +3,24 @@ import { KeyboardAvoidingView, Text } from "react-native"
 import InputField from "./InputField"
 import Button from "./Button"
 import useAuth from "../hooks/useAuth"
-import { router } from "expo-router"
 
 type FormValueProps = {
-  email: string,
+  name: string
+  email: string
   password: string
+  confirmPassword: string
 }
 
-type LoginFormProps = {
+type RegisterFormProps = {
   onSubmit: (data: FormValueProps) => void
 }
 
-const LoginForm = ({ onSubmit }: LoginFormProps) => {
+const RegisterForm = ({ onSubmit }: RegisterFormProps) => {
   const { isLoading } = useAuth()
 
   return (
     <Formik<FormValueProps>
-      initialValues={{ email: '', password: '' }}
+      initialValues={{ name: '', email: '', password: '', confirmPassword: '' }}
       onSubmit={onSubmit}
     >
       {({ values, setFieldValue }) => (
@@ -27,6 +28,12 @@ const LoginForm = ({ onSubmit }: LoginFormProps) => {
           behavior="height"
           className="flex h-full justify-center items-center px-20"
         >
+          <InputField
+            label="Nome"
+            value={values.name}
+            onChangeText={(value) => setFieldValue('name', value)}
+          />
+
           <InputField
             label="Email"
             value={values.email}
@@ -41,23 +48,20 @@ const LoginForm = ({ onSubmit }: LoginFormProps) => {
             onChangeText={(value) => setFieldValue('password', value)}
           />
 
+          <InputField
+            label="Confirma a senha"
+            value={values.confirmPassword}
+            secureTextEntry
+            onChangeText={(value) => setFieldValue('confirmPassword', value)}
+          />
+
           <Button
             className="bg-teal-600 h-10 w-full rounded-md dark:bg-teal-900"
             disabled={isLoading}
             onClick={() => onSubmit(values)}
           >
             <Text className="text-xl text-white">
-              {isLoading ? "Entrando..." : "Entrar"}
-            </Text>
-          </Button>
-
-          <Button
-            className="h-10 w-full rounded-md mt-1"
-            disabled={isLoading}
-            onClick={() => router.push('/auth/register')}
-          >
-            <Text className="text-xl">
-              Criar conta
+              {isLoading ? "Criando..." : "Criar"}
             </Text>
           </Button>
         </KeyboardAvoidingView>
@@ -66,4 +70,4 @@ const LoginForm = ({ onSubmit }: LoginFormProps) => {
   )
 }
 
-export default LoginForm
+export default RegisterForm

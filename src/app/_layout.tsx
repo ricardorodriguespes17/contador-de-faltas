@@ -47,6 +47,12 @@ const Layout = () => {
                         }}
                     />
                     <Stack.Screen
+                        name="auth/register"
+                        options={{
+                            title: "Criação de conta",
+                        }}
+                    />
+                    <Stack.Screen
                         name="course/[id]"
                         options={{
                             title: "Editar máteria",
