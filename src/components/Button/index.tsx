@@ -1,17 +1,16 @@
-import { TouchableOpacity } from "react-native"
+import { TouchableOpacity, TouchableOpacityProps } from "react-native"
 
 type ButtonProps = {
     onClick?: () => void
     children?: React.ReactNode
     className?: string
-    disabled?: boolean
-}
+} & TouchableOpacityProps
 
-const Button = ({ onClick, className, children, disabled }: ButtonProps) => {
+const Button = ({ onClick, className, children, ...rest }: ButtonProps) => {
     return (
         <TouchableOpacity
+            {...rest}
             className={`flex justify-center items-center ${className}`}
-            disabled={disabled}
             onPress={onClick}
         >
             {children}

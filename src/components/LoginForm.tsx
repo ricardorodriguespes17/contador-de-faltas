@@ -1,9 +1,10 @@
 import { Formik } from "formik"
-import { KeyboardAvoidingView, Text } from "react-native"
+import { Text } from "react-native"
 import InputField from "./InputField"
 import Button from "./Button"
 import useAuth from "../hooks/useAuth"
 import { router } from "expo-router"
+import FormBase from "./FormBase"
 
 type FormValueProps = {
   username: string,
@@ -23,10 +24,7 @@ const LoginForm = ({ onSubmit }: LoginFormProps) => {
       onSubmit={onSubmit}
     >
       {({ values, setFieldValue }) => (
-        <KeyboardAvoidingView
-          behavior="height"
-          className="flex h-full justify-center items-center px-20"
-        >
+        <FormBase>
           <InputField
             label="Usuário"
             value={values.username}
@@ -41,7 +39,7 @@ const LoginForm = ({ onSubmit }: LoginFormProps) => {
           />
 
           <Button
-            className="bg-teal-600 h-10 w-full rounded-md dark:bg-teal-900"
+            className="bg-teal-600 h-[50px] w-full rounded-md dark:bg-teal-900"
             disabled={isLoading}
             onClick={() => onSubmit(values)}
           >
@@ -51,7 +49,7 @@ const LoginForm = ({ onSubmit }: LoginFormProps) => {
           </Button>
 
           <Button
-            className="h-10 w-full rounded-md mt-1"
+            className="h-[50px] w-full rounded-md mt-1"
             disabled={isLoading}
             onClick={() => router.push('/auth/register')}
           >
@@ -59,7 +57,7 @@ const LoginForm = ({ onSubmit }: LoginFormProps) => {
               Criar conta
             </Text>
           </Button>
-        </KeyboardAvoidingView>
+        </FormBase>
       )}
     </Formik>
   )

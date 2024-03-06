@@ -1,10 +1,11 @@
 import { Formik } from "formik"
-import { KeyboardAvoidingView, Text } from "react-native"
+import { Text } from "react-native"
 import Button from "../Button"
 import InputField from "../InputField"
 import useCourses from "../../hooks/useCourses"
 import { router } from "expo-router"
 import { CoursesProps } from "../../types/courses"
+import FormBase from "../FormBase"
 
 type FormValueProps = {
   name: string,
@@ -45,18 +46,15 @@ const CourseForm = ({ course }: CourseFormProps) => {
 
   return (
     <Formik<FormValueProps>
-      initialValues={{ 
-        name: course?.name || '', 
-        absencesPerDay: course?.absencesPerDay.toString() || '2', 
-        absenceLimit: course?.absenceLimit.toString() || '15' 
+      initialValues={{
+        name: course?.name || '',
+        absencesPerDay: course?.absencesPerDay.toString() || '2',
+        absenceLimit: course?.absenceLimit.toString() || '15'
       }}
       onSubmit={onSubmit}
     >
       {({ values, setFieldValue }) => (
-        <KeyboardAvoidingView
-          behavior="height"
-          className="flex w-full h-full justify-center items-center px-20"
-        >
+        <FormBase>
           <InputField
             label="Nome"
             value={values.name}
@@ -76,14 +74,14 @@ const CourseForm = ({ course }: CourseFormProps) => {
           />
 
           <Button
-            className="bg-teal-600 h-10 w-full rounded-md dark:bg-teal-900"
+            className="bg-teal-600 h-[50px] w-full rounded-md dark:bg-teal-900"
             onClick={() => onSubmit(values)}
           >
             <Text className="text-xl text-white">
               {course ? "Editar" : "Adicionar"}
             </Text>
           </Button>
-        </KeyboardAvoidingView>
+        </FormBase>
       )}
     </Formik>
   )

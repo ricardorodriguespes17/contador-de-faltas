@@ -10,7 +10,7 @@ const InputField = ({ label, ...rest }: InputFieldProps) => {
             <Text className="text-xl dark:text-white">{label}</Text>
             <TextInput
                 {...rest}
-                className="w-full h-10 border-2 border-gray-300 pl-3 rounded-md dark:text-white dark:border-gray-700"
+                className="w-full h-12 border-2 border-gray-300 pl-3 rounded-md dark:text-white dark:border-gray-700"
             />
         </View>
     )
