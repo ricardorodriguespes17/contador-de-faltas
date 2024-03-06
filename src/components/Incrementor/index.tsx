@@ -18,7 +18,7 @@ const Incrementor = ({ value, onDecrement, onIncrement }: IncrementorProps) => {
                 <Icon name="minus" size={12} />
             </Button>
 
-            <View className="flex justify-center items-center w-6 h-full">
+            <View className="flex justify-center items-center w-8 h-full">
                 <Text className="text-2xl dark:text-white">{value}</Text>
             </View>
 
