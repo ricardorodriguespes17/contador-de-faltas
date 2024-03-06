@@ -4,6 +4,7 @@ import { getLocalCourses, setLocalCourses } from "../services/local/courseStorag
 import { getFirebaseCourses, updateFirebaseCourses } from "../services/firebase/coursesDB";
 import uuid from 'react-native-uuid';
 import useAuth from "../hooks/useAuth";
+import Loading from "../components/Loading";
 
 type CoursesContextProps = {
   courses: CoursesProps[]
@@ -127,7 +128,7 @@ const CoursesProvider = ({ children }: CoursesProviderProps) => {
       incrementAbsences,
       decrementAbsences
     }}>
-      {children}
+      {isLoading ? <Loading /> : children}
     </CoursesContext.Provider>
   )
 }

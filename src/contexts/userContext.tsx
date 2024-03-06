@@ -3,6 +3,7 @@ import { UserProps } from "../types/user";
 import { createUser, getUser } from "../services/firebase/usersDB";
 import { FirebaseAuthTypes } from "@react-native-firebase/auth";
 import auth from "../services/firebase/auth";
+import Loading from "../components/Loading";
 
 type UserContextProps = {
   user: UserProps | null
@@ -103,7 +104,7 @@ const UserProvider = ({ children }: UserProviderProps) => {
 
   return (
     <UserContext.Provider value={{ user, isLoading, onLogin, onLogout, onRegister }}>
-      {children}
+      {isLoading ? <Loading /> : children}
     </UserContext.Provider>
   )
 }
