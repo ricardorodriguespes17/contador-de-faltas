@@ -7,7 +7,7 @@ const Login = () => {
     const { onLogin, user } = useAuth()
 
     const onSubmit = async ({ username, password }: { username: string, password: string }) => {
-        await onLogin({ username, password })
+        await onLogin({ username: username.trim(), password: password.trim() })
     }
 
     if (user) {

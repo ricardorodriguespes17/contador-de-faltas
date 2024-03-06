@@ -21,7 +21,6 @@ type RegisterData = {
     name: string
     username: string
     password: string
-    confirmPassword: string
 }
 
 export const UserContext = createContext({} as UserContextProps)
@@ -47,9 +46,7 @@ const UserProvider = ({ children }: UserProviderProps) => {
     const getUserData = async (currentUser: FirebaseAuthTypes.User | null) => {
         if (!currentUser) return null
 
-        console.log('current:', currentUser)
         const userData = await getUser(currentUser.uid)
-        console.log('userData:', userData)
         return { ...userData, uid: currentUser.uid }
     }
 
