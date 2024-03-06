@@ -13,13 +13,13 @@ type UserContextProps = {
 }
 
 type LoginData = {
-    email: string
+    username: string
     password: string
 }
 
 type RegisterData = {
     name: string
-    email: string
+    username: string
     password: string
     confirmPassword: string
 }
@@ -53,10 +53,10 @@ const UserProvider = ({ children }: UserProviderProps) => {
         return { ...userData, uid: currentUser.uid }
     }
 
-    const onLogin = async ({ email, password }: LoginData) => {
+    const onLogin = async ({ username, password }: LoginData) => {
         try {
             setIsLoading(true)
-            const credentials = await auth().signInWithEmailAndPassword(email, password)
+            const credentials = await auth().signInWithEmailAndPassword(username + "@gmail.com", password)
             const user = getUserData(credentials.user)
             return !!user
         } catch (err) {
@@ -78,10 +78,10 @@ const UserProvider = ({ children }: UserProviderProps) => {
         }
     }
 
-    const onRegister = async ({ name, email, password }: RegisterData) => {
+    const onRegister = async ({ name, username, password }: RegisterData) => {
         try {
             setIsLoading(true)
-            const credentials = await auth().createUserWithEmailAndPassword(email, password)
+            const credentials = await auth().createUserWithEmailAndPassword(username + "@gmail.com", password)
             if (credentials.user) {
                 await createUser({
                     uid: credentials.user.uid,

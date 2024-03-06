@@ -6,7 +6,7 @@ import useAuth from "../hooks/useAuth"
 import { router } from "expo-router"
 
 type FormValueProps = {
-  email: string,
+  username: string,
   password: string
 }
 
@@ -19,7 +19,7 @@ const LoginForm = ({ onSubmit }: LoginFormProps) => {
 
   return (
     <Formik<FormValueProps>
-      initialValues={{ email: '', password: '' }}
+      initialValues={{ username: '', password: '' }}
       onSubmit={onSubmit}
     >
       {({ values, setFieldValue }) => (
@@ -28,10 +28,9 @@ const LoginForm = ({ onSubmit }: LoginFormProps) => {
           className="flex h-full justify-center items-center px-20"
         >
           <InputField
-            label="Email"
-            value={values.email}
-            autoComplete="email"
-            onChangeText={(value) => setFieldValue('email', value)}
+            label="Usuário"
+            value={values.username}
+            onChangeText={(value) => setFieldValue('username', value)}
           />
 
           <InputField

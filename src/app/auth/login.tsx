@@ -6,8 +6,8 @@ import { Redirect } from "expo-router"
 const Login = () => {
     const { onLogin, user } = useAuth()
 
-    const onSubmit = async ({ email, password }: { email: string, password: string }) => {
-        await onLogin({ email, password })
+    const onSubmit = async ({ username, password }: { username: string, password: string }) => {
+        await onLogin({ username, password })
     }
 
     if (user) {

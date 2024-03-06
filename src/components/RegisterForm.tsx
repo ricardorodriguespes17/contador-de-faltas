@@ -6,7 +6,7 @@ import useAuth from "../hooks/useAuth"
 
 type FormValueProps = {
   name: string
-  email: string
+  username: string
   password: string
   confirmPassword: string
 }
@@ -20,7 +20,7 @@ const RegisterForm = ({ onSubmit }: RegisterFormProps) => {
 
   return (
     <Formik<FormValueProps>
-      initialValues={{ name: '', email: '', password: '', confirmPassword: '' }}
+      initialValues={{ name: '', username: '', password: '', confirmPassword: '' }}
       onSubmit={onSubmit}
     >
       {({ values, setFieldValue }) => (
@@ -35,10 +35,9 @@ const RegisterForm = ({ onSubmit }: RegisterFormProps) => {
           />
 
           <InputField
-            label="Email"
-            value={values.email}
-            autoComplete="email"
-            onChangeText={(value) => setFieldValue('email', value)}
+            label="Nome de usuário"
+            value={values.username}
+            onChangeText={(value) => setFieldValue('username', value)}
           />
 
           <InputField

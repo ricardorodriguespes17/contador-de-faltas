@@ -5,7 +5,7 @@ import { router } from "expo-router"
 
 type FormValueProps = {
     name: string
-    email: string
+    username: string
     password: string
     confirmPassword: string
   }
@@ -13,8 +13,8 @@ type FormValueProps = {
 const Register = () => {
     const { onRegister } = useAuth()
 
-    const onSubmit = async ({ name, email, password, confirmPassword }: FormValueProps) => {
-        const resp = await onRegister({ name, email, password, confirmPassword })
+    const onSubmit = async ({ name, username, password, confirmPassword }: FormValueProps) => {
+        const resp = await onRegister({ name, username, password, confirmPassword })
 
         if(resp) {
             router.back()
