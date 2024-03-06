@@ -4,11 +4,12 @@ import Icon from "../Icon"
 
 type IncrementorProps = {
     value: number
+    limit: number
     onIncrement: () => void
     onDecrement: () => void
 }
 
-const Incrementor = ({ value, onDecrement, onIncrement }: IncrementorProps) => {
+const Incrementor = ({ value, limit, onDecrement, onIncrement }: IncrementorProps) => {
     return (
         <View className="flex flex-row">
             <Button
@@ -19,7 +20,12 @@ const Incrementor = ({ value, onDecrement, onIncrement }: IncrementorProps) => {
             </Button>
 
             <View className="flex justify-center items-center w-8 h-full">
-                <Text className="text-2xl dark:text-white">{value}</Text>
+                <Text
+                    style={{color: value >= limit ? 'red' : undefined}}
+                    className="text-2xl dark:text-white"
+                >
+                    {value}
+                </Text>
             </View>
 
             <Button

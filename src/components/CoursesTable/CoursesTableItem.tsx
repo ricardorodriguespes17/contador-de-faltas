@@ -45,6 +45,7 @@ const CoursesTableItem = ({ course }: CoursesTableItemProps) => {
 
                 <Incrementor
                     value={course.absences}
+                    limit={course.absenceLimit}
                     onDecrement={() => decrementAbsences(course.id)}
                     onIncrement={() => incrementAbsences(course.id)}
                 />
