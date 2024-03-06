@@ -1,6 +1,4 @@
 import { Formik } from "formik"
-import { Text } from "react-native"
-import Button from "../Button"
 import InputField from "../InputField"
 import useCourses from "../../hooks/useCourses"
 import { router } from "expo-router"

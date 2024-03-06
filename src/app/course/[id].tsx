@@ -6,25 +6,25 @@ import { CoursesProps } from '../../types/courses';
 import CourseForm from '../../components/CourseForm';
 
 const ModalCourse = () => {
-    const { id } = useLocalSearchParams()
-    const { courses } = useCourses()
-    const [course, setCourse] = useState<CoursesProps>()
+  const { id } = useLocalSearchParams()
+  const { courses } = useCourses()
+  const [course, setCourse] = useState<CoursesProps>()
 
-    useEffect(() => {
-        const courseId = id as string
+  useEffect(() => {
+    const courseId = id as string
 
-        if (courseId) {
-            setCourse(courses.find(item => item.id === courseId))
-        } else {
-            router.back()
-        }
-    }, [id, courses])
+    if (courseId) {
+      setCourse(courses.find(item => item.id === courseId))
+    } else {
+      router.back()
+    }
+  }, [id, courses])
 
-    return (
-        <View className="flex w-full flex-1 justify-center items-center">
-            {course && <CourseForm course={course} />}
-        </View>
-    )
+  return (
+    <View className="flex w-full flex-1 justify-center items-center">
+      {course && <CourseForm course={course} />}
+    </View>
+  )
 }
 
 export default ModalCourse

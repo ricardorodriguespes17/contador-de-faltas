@@ -1,7 +1,7 @@
 export type CoursesProps = {
-    id: string
-    name: string
-    absences: number
-    absencesPerDay: number
-    absenceLimit: number
+  id: string
+  name: string
+  absences: number
+  absencesPerDay: number
+  absenceLimit: number
 }

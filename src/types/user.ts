@@ -1,5 +1,5 @@
 export type UserProps = {
-    uid: string
-    name: string
-    email: string
+  uid: string
+  name: string
+  email: string
 }

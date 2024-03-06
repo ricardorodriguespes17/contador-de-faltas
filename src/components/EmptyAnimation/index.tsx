@@ -5,16 +5,16 @@ import EmptyLottieDark from '../../../assets/empty-dark.json'
 import { useColorScheme } from 'nativewind';
 
 const EmptyAnimation = () => {
-    const { colorScheme } = useColorScheme()
+  const { colorScheme } = useColorScheme()
 
-    return (
-        <LottieView
-            autoPlay
-            loop
-            source={colorScheme === 'dark' ? EmptyLottieDark : EmptyLottie}
-            style={{ width: '100%', height: 450 }}
-        />
-    )
+  return (
+    <LottieView
+      autoPlay
+      loop
+      source={colorScheme === 'dark' ? EmptyLottieDark : EmptyLottie}
+      style={{ width: '100%', height: 450 }}
+    />
+  )
 }
 
 export default EmptyAnimation

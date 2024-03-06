@@ -4,21 +4,21 @@ import useAuth from "../../hooks/useAuth"
 import { Redirect } from "expo-router"
 
 const Login = () => {
-    const { onLogin, user } = useAuth()
+  const { onLogin, user } = useAuth()
 
-    const onSubmit = async ({ username, password }: { username: string, password: string }) => {
-        await onLogin({ username: username.trim(), password: password.trim() })
-    }
+  const onSubmit = async ({ username, password }: { username: string, password: string }) => {
+    await onLogin({ username: username.trim(), password: password.trim() })
+  }
 
-    if (user) {
-        return <Redirect href="/home" />
-    }
+  if (user) {
+    return <Redirect href="/home" />
+  }
 
-    return (
-        <View>
-            <LoginForm onSubmit={onSubmit} />
-        </View>
-    )
+  return (
+    <View>
+      <LoginForm onSubmit={onSubmit} />
+    </View>
+  )
 }
 
 export default Login
