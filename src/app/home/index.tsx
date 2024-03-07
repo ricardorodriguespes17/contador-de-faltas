@@ -4,9 +4,9 @@ import useAuth from "../../hooks/useAuth"
 import CoursesTable from "../../components/CoursesTable"
 
 const Home = () => {
-  const { user, isLoading } = useAuth()
+  const { user } = useAuth()
 
-  if (!user && !isLoading) {
+  if (!user) {
     return <Redirect href="/auth/login" />
   }
 

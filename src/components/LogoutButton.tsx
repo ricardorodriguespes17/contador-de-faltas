@@ -1,6 +1,7 @@
 import useAuth from "../hooks/useAuth"
 import Button from "./Button"
 import Icon from "./Icon"
+import { Alert } from "react-native"
 
 type LogoutButtonProps = {
   tintColor?: string
@@ -10,7 +11,11 @@ const LogoutButton = ({ tintColor }: LogoutButtonProps) => {
   const { onLogout } = useAuth()
 
   const handleLogout = async () => {
-    await onLogout()
+    const response = await onLogout()
+
+    if(response === "OK") return
+
+    Alert.alert('Logout', response)
   }
 
   return (

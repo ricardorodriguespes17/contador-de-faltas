@@ -4,13 +4,13 @@ import { createUser, getUser } from "../services/firebase/usersDB";
 import { FirebaseAuthTypes } from "@react-native-firebase/auth";
 import auth from "../services/firebase/auth";
 import Loading from "../components/Loading";
+import validateError from "../services/firebase/validateError";
 
 type UserContextProps = {
   user: UserProps | null
-  isLoading: boolean
-  onLogin: (data: LoginData) => Promise<boolean>
-  onRegister: (data: RegisterData) => Promise<boolean>
-  onLogout: () => Promise<boolean>
+  onLogin: (data: LoginData) => Promise<string>
+  onRegister: (data: RegisterData) => Promise<string>
+  onLogout: () => Promise<string>
 }
 
 type LoginData = {
@@ -47,8 +47,12 @@ const UserProvider = ({ children }: UserProviderProps) => {
   const getUserData = async (currentUser: FirebaseAuthTypes.User | null) => {
     if (!currentUser) return null
 
-    const userData = await getUser(currentUser.uid)
-    return { ...userData, uid: currentUser.uid }
+    try {
+      const userData = await getUser(currentUser.uid)
+      return { ...userData, uid: currentUser.uid }
+    } catch (err) {
+      return null
+    }
   }
 
   const onLogin = async ({ username, password }: LoginData) => {
@@ -57,10 +61,13 @@ const UserProvider = ({ children }: UserProviderProps) => {
       const credentials =
         await auth()
           .signInWithEmailAndPassword(username + "@gmail.com", password)
-      const user = getUserData(credentials.user)
-      return !!user
+
+      await getUserData(credentials.user)
+      return "OK"
     } catch (err) {
-      return false
+      const firebaseError = err as { message: string, code: string }
+      return validateError(firebaseError.code)
+        || "Não foi possível fazer login, tente novamente"
     } finally {
       setIsLoading(false)
     }
@@ -70,9 +77,11 @@ const UserProvider = ({ children }: UserProviderProps) => {
     try {
       setIsLoading(true)
       await auth().signOut()
-      return true
+      return "OK"
     } catch (err) {
-      return false
+      const firebaseError = err as { message: string, code: string }
+      return validateError(firebaseError.code)
+        || "Não foi possível fazer logout, tente novamente"
     } finally {
       setIsLoading(false)
     }
@@ -92,18 +101,21 @@ const UserProvider = ({ children }: UserProviderProps) => {
         })
         const user = await getUserData(credentials.user)
         setUser(user)
-        return !!user
+        return "OK"
       }
-      return false
+
+      return "Erro ao receber as credenciais do usuário"
     } catch (err) {
-      return false
+      const firebaseError = err as { message: string, code: string }
+      return validateError(firebaseError.code)
+        || "Não foi possível criar conta, tente novamente"
     } finally {
       setIsLoading(false)
     }
   }
 
   return (
-    <UserContext.Provider value={{ user, isLoading, onLogin, onLogout, onRegister }}>
+    <UserContext.Provider value={{ user, onLogin, onLogout, onRegister }}>
       {isLoading ? <Loading /> : children}
     </UserContext.Provider>
   )

@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { CoursesProps } from "../types/courses";
-import { getLocalCourses, setLocalCourses } from "../services/local/courseStorage";
+import { setLocalCourses } from "../services/local/courseStorage";
 import { getFirebaseCourses, updateFirebaseCourses } from "../services/firebase/coursesDB";
 import uuid from 'react-native-uuid';
 import useAuth from "../hooks/useAuth";
@@ -9,6 +9,7 @@ import Loading from "../components/Loading";
 type CoursesContextProps = {
   courses: CoursesProps[]
   isLoading: boolean
+  error?: string
   createCourse: (data: CreateCourseProps) => Promise<void>
   updateCourse: (data: UpdateCourseProps) => Promise<void>
   removeCourse: (id: string) => Promise<void>
@@ -36,9 +37,9 @@ type CoursesProviderProps = {
 }
 
 const CoursesProvider = ({ children }: CoursesProviderProps) => {
+  const { user } = useAuth()
   const [coursesData, setData] = useState<CoursesProps[]>([])
   const [isLoading, setIsLoading] = useState(false)
-  const { user } = useAuth()
 
   useEffect(() => {
     if (user) {
@@ -50,10 +51,9 @@ const CoursesProvider = ({ children }: CoursesProviderProps) => {
     try {
       setIsLoading(true)
       const data = await getFirebaseCourses({ userUid: user?.uid })
-      const localData = await getLocalCourses()
       setData(data || [])
     } catch (err) {
-      console.log('erro ao carregar as matérias')
+      setData([])
     } finally {
       setIsLoading(false)
     }
@@ -65,8 +65,6 @@ const CoursesProvider = ({ children }: CoursesProviderProps) => {
       await updateFirebaseCourses({ courses: data, userUid: user?.uid })
       await setLocalCourses(data)
       setData(data)
-    } catch (err) {
-      console.log('erro ao atualizar as matérias')
     } finally {
       setIsLoading(false)
     }

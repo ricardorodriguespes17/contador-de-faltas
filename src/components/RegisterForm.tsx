@@ -1,6 +1,5 @@
 import { Formik } from "formik"
 import InputField from "./InputField"
-import useAuth from "../hooks/useAuth"
 import FormBase from "./FormBase"
 
 type FormValueProps = {
@@ -15,12 +14,8 @@ type RegisterFormProps = {
 }
 
 const RegisterForm = ({ onSubmit }: RegisterFormProps) => {
-  const { isLoading } = useAuth()
-
   const validate = (values: FormValueProps) => {
     const errors = {} as any
-
-    console.log(values.password.length)
 
     if (!values.password.trim()) {
       errors.password = 'A senha é obrigatória'
@@ -35,9 +30,9 @@ const RegisterForm = ({ onSubmit }: RegisterFormProps) => {
     }
 
     if (!values.username.trim()) {
-      errors.username = 'O nome de usuário é obrigatório'
+      errors.username = 'O usuário é obrigatório'
     } else if(values.username.includes("@")) {
-      errors.username = 'O nome de usuário não pode conter "@"'
+      errors.username = 'O usuário não pode conter "@"'
     }
 
     return errors
@@ -52,7 +47,6 @@ const RegisterForm = ({ onSubmit }: RegisterFormProps) => {
     >
       {({ values, setFieldValue, errors, handleSubmit }) => (
         <FormBase
-          disabled={isLoading}
           textButton="Criar"
           handleSubmit={handleSubmit}
         >
@@ -64,7 +58,7 @@ const RegisterForm = ({ onSubmit }: RegisterFormProps) => {
           />
 
           <InputField
-            label="Nome de usuário"
+            label="Usuário"
             error={errors.username}
             value={values.username}
             onChangeText={(value) => setFieldValue('username', value)}
@@ -81,7 +75,7 @@ const RegisterForm = ({ onSubmit }: RegisterFormProps) => {
           <InputField
             label="Repita a senha"
             value={values.confirmPassword}
-            error={values.confirmPassword}
+            error={errors.confirmPassword}
             secureTextEntry
             onChangeText={(value) => setFieldValue('confirmPassword', value)}
           />
