@@ -126,7 +126,7 @@ const CoursesProvider = ({ children }: CoursesProviderProps) => {
       incrementAbsences,
       decrementAbsences
     }}>
-      {isLoading ? <Loading /> : children}
+      {children}
     </CoursesContext.Provider>
   )
 }
