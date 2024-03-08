@@ -21,7 +21,7 @@ const ModalCourse = () => {
   }, [id, courses])
 
   return (
-    <View className="flex w-full flex-1 justify-center items-center">
+    <View>
       {course && <CourseForm course={course} />}
     </View>
   )
