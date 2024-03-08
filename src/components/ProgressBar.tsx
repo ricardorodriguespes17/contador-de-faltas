@@ -21,7 +21,7 @@ const ProgressBar = ({ value, maxValue }: ProgressBarProps) => {
 
 
   return (
-    <View className="w-52 h-2 max-h-full bg-slate-300 rounded-md">
+    <View className="w-52 h-2 max-h-full bg-slate-400/40 rounded-md border-[1px] border-slate-400/40">
       <View
         style={{
           width: `${percent > 100 ? 100 : percent}%`,

@@ -1,12 +1,17 @@
 import { Stack } from "expo-router"
 import CoursesProvider from "../contexts/coursesContext"
 import { darkMode, lightMode } from "../config/appConfig"
-import { useColorScheme } from "nativewind";
+import { NativeWindStyleSheet, useColorScheme } from "nativewind";
 import UserProvider from "../contexts/userContext";
 import LogoutButton from "../components/LogoutButton";
 
+NativeWindStyleSheet.setOutput({
+  default: "native",
+});
+
 const Layout = () => {
-  const { colorScheme } = useColorScheme();
+  const { colorScheme, setColorScheme } = useColorScheme();
+  setColorScheme('light')
   const theme = colorScheme === 'dark' ? darkMode : lightMode
 
   return (

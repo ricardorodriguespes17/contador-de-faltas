@@ -21,8 +21,7 @@ const Incrementor = ({ value, limit, onDecrement, onIncrement }: IncrementorProp
 
       <View className="flex justify-center items-center w-8 h-full">
         <Text
-          style={{ color: value >= limit ? 'red' : undefined }}
-          className="text-2xl dark:text-white"
+          className={`text-2xl dark:text-white ${value >= limit ? 'text-red-500' : ''}`}
         >
           {value}
         </Text>

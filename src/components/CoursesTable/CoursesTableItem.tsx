@@ -7,7 +7,7 @@ import Incrementor from "../Incrementor"
 import { CoursesProps } from "../../types/courses"
 import useCourses from "../../hooks/useCourses"
 import { useState } from "react"
-import CircleProgress from "../ProgressBar"
+import ProgressBar from "../ProgressBar"
 
 type CoursesTableItemProps = {
   course: CoursesProps
@@ -26,7 +26,6 @@ const CoursesTableItem = ({ course }: CoursesTableItemProps) => {
           <Icon
             name={isOpenDetails ? "chevron-up" : "chevron-down"}
             size={24}
-            color={lightMode.textAppColor}
           />
         </Button>
 
@@ -51,22 +50,27 @@ const CoursesTableItem = ({ course }: CoursesTableItemProps) => {
         />
       </View>
 
-      <View
-        style={{ height: isOpenDetails ? 50 : 0 }}
-        className="flex flex-row items-center w-full bg-gray-800/10 px-3 border-t-2 border-gray-800/30"
-      >
-        <View className="flex-1 flex justify-center">
-          <Text className="text-base dark:text-white">Limite: {course.absenceLimit} faltas</Text>
-        </View>
-
-        {course.absences / course.absenceLimit >= 1 && isOpenDetails && (
-          <View className="bg-black/90 rounded-md p-1 mr-1">
-            <Text>☠️</Text>
+      {isOpenDetails && (
+        <View
+          className="flex flex-row items-center w-full h-12
+        bg-gray-800/10 dark:bg-white  px-3 border-t-2 
+        border-gray-800/30 dark:border-gray-200/30"
+        >
+          <View className="flex-1 flex justify-center">
+            <Text className="text-base dark:text-white">
+              Limite: {course.absenceLimit} faltas
+            </Text>
           </View>
-        )}
 
-        <CircleProgress value={course.absences} maxValue={course.absenceLimit} />
-      </View>
+          {course.absences / course.absenceLimit >= 1 && isOpenDetails && (
+            <View className="bg-black/90 rounded-md p-1 mr-1">
+              <Text>☠️</Text>
+            </View>
+          )}
+
+          <ProgressBar value={course.absences} maxValue={course.absenceLimit} />
+        </View>
+      )}
     </View>
   )
 }

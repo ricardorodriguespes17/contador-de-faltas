@@ -17,7 +17,7 @@ const CoursesTable = () => {
 
   return (
     <View className="flex flex-1 items-center">
-      <Text className="text-xl my-2">Olá, {user?.name} 👋</Text>
+      <Text className="text-xl my-2 dark:text-white">Olá, {user?.name} 👋</Text>
 
       {courses.map(course => (
         <CoursesTableItem key={course.id} course={course} />
@@ -34,7 +34,10 @@ const CoursesTable = () => {
         className="mt-3"
         onClick={handleAdd}
       >
-        <Icon name="plus-circle" size={30} />
+        <Icon
+          name="plus-circle"
+          size={30}
+        />
       </Button>
     </View>
   )
